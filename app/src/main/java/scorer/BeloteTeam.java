@@ -26,4 +26,6 @@ public class BeloteTeam {
     public void setPlayer2(Player player2) {
         this.player2 = player2;
     }
+
+    public String toString() {return player1.getName() + "/" + player2.getName();}
 }

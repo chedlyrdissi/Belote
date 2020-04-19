@@ -4,37 +4,14 @@ import java.time.LocalDateTime;
 
 public class BeloteRound {
 
-    private BeloteTeam team1;
     private int score1 = 0;
 
-    private BeloteTeam team2;
     private int score2 = 0;
 
     private String start;
     private String finish;
 
     public BeloteRound(){}
-
-    public BeloteRound(BeloteTeam team1, BeloteTeam team2) {
-        this.team1 = team1;
-        this.team2 = team2;
-    }
-
-    public BeloteTeam getTeam1() {
-        return team1;
-    }
-
-    public void setTeam1(BeloteTeam team1) {
-        this.team1 = team1;
-    }
-
-    public BeloteTeam getTeam2() {
-        return team2;
-    }
-
-    public void setTeam2(BeloteTeam team2) {
-        this.team2 = team2;
-    }
 
     public int getScore1() {
         return score1;

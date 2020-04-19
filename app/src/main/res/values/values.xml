@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="default_corner_radius">5dp</dimen>
+</resources>

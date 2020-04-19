@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Belote</string>
-    <string name="score">Score</string>
+    <string name="score">Scoring</string>
+    <string name="new_game">New game</string>
+    <string name="delete_game">Delete game</string>
+    <string name="startTime">Start time</string>
+    <string name="finishTime">Finish time</string>
+    <string name="new_game_creation">Please input a name for the game</string>
+    <string name="team1_label">Team 1</string>
+    <string name="team2_label">Team 2</string>
+    <string name="player1_label">Player 1</string>
+    <string name="player2_label">Player 2</string>
+    <string name="invalidPlayerNames">Please make sure all the player names are valid</string>
+    <string name="errorCreatingGame">An error has occurred, unable to create the game</string>
+    <string name="help">Help</string>
+    <string name="creationSuccessful">New game created successfully</string>
+    <string name="creationFailed">New game failed to create</string>
 </resources>

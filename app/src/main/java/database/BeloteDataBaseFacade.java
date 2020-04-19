@@ -15,6 +15,8 @@ import java.util.List;
 
 import scorer.BeloteGame;
 import scorer.BeloteRound;
+import scorer.BeloteTeam;
+import scorer.Player;
 import scorer.ScoreBean;
 
 public class BeloteDataBaseFacade {
@@ -35,7 +37,11 @@ public class BeloteDataBaseFacade {
                     BeloteRound round;
                     for( DataSnapshot snapshot: dataSnapshot.getChildren() ) {
                         id = snapshot.getKey();
-                        game = new BeloteGame(id);
+                        game = new BeloteGame(id,
+                                getTeamFromSnapshot(snapshot.child("team1")),
+                                getTeamFromSnapshot(snapshot.child("team2")));
+                        game.setStart((String) snapshot.child("start").getValue());
+                        game.setFinish((String) snapshot.child("finish").getValue());
                         for ( DataSnapshot roundSnapshot: snapshot.child("rounds").getChildren() ) {
                             game.addRound(roundSnapshot.getValue(BeloteRound.class));
                         }
@@ -55,11 +61,27 @@ public class BeloteDataBaseFacade {
         }
     }
 
+    private BeloteTeam getTeamFromSnapshot( DataSnapshot dataSnapshot ) {
+        return new BeloteTeam(
+                new Player((String) dataSnapshot.child("player1").child("name").getValue()),
+                new Player((String) dataSnapshot.child("player2").child("name").getValue()) );
+    }
+
     public static BeloteDataBaseFacade getInstance() throws BeloteDBConnectionException {
         if ( instance == null ) {
             instance = new BeloteDataBaseFacade();
         }
         return instance;
+    }
+
+    public void addGame(BeloteGame game) {
+        scoreRef.push().setValue(game);
+    }
+
+    public void deleteGames(List<BeloteGame> games) {
+        for (BeloteGame game: games) {
+            scoreRef.child(game.getName()).removeValue();
+        }
     }
 
 }
