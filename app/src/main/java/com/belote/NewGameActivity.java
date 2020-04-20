@@ -38,7 +38,7 @@ public class NewGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
 
-        gameName = findViewById(R.id.newGameName);
+        gameName = findViewById(R.id.gameNameLabel);
         team1Player1 = findViewById(R.id.team1Player1);
         team1Player2 = findViewById(R.id.team1Player2);
         team2Player1 = findViewById(R.id.team2Player1);

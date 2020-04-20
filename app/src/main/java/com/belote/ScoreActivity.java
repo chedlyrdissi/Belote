@@ -45,6 +45,13 @@ public class ScoreActivity extends AppCompatActivity implements GameListRecycler
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
+        try {
+            BeloteDataBaseFacade.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.connectionIssue, Toast.LENGTH_LONG).show();
+        }
+
         gameList = findViewById(R.id.gamesList);
         createGame = findViewById(R.id.newGameButton);
         deleteGames = findViewById(R.id.deleteGameButton);
@@ -94,11 +101,18 @@ public class ScoreActivity extends AppCompatActivity implements GameListRecycler
     }
 
     @Override
-    public void selectGame( boolean canDelete ) {
+    public void selectToDeleteGame( boolean canDelete ) {
         if (canDelete) {
             deleteGames.setVisibility(View.VISIBLE);
         } else {
             deleteGames.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void selectGame(BeloteGame selectedGame) {
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        ScoreBean.getInstance().setSelectedGame(selectedGame);
+        startActivity(intent);
     }
 }

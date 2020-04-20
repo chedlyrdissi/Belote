@@ -1,7 +1,6 @@
 package scorer;
 
 import android.graphics.Color;
-import android.icu.text.CompactDecimalFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +51,11 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
         holder.gameTeam2.setText(games.get(position).getTeam2().toString());
         holder.gameScore1.setText(Integer.toString(games.get(position).getTotalScore1()));
         holder.gameScore2.setText(Integer.toString(games.get(position).getTotalScore2()));
+        if ( selectedGames.contains(games.get( position )) ) {
+            holder.view.setBackgroundColor(ContextCompat.getColor(holder.view.getContext(), R.color.itemSelected));
+        } else {
+            holder.view.setBackgroundColor(Color.WHITE);
+        }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,13 +63,20 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
                     selectedGames.remove(games.get(position));
                     v.setBackgroundColor(Color.WHITE);
                     if ( selectedGames.isEmpty() ) {
-                        context.selectGame(false);
+                        context.selectToDeleteGame(false);
                     }
                 } else {
                     selectedGames.add(games.get(position));
                     v.setBackgroundColor(ContextCompat.getColor(v.getContext(), R.color.itemSelected));
-                    context.selectGame(true);
+                    context.selectToDeleteGame(true);
                 }
+            }
+        });
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                context.selectGame(games.get(position));
+                return true;
             }
         });
     }
@@ -107,6 +118,7 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
     }
 
     public static interface GameListItemDeleteHandler {
-        void selectGame( boolean canDelete );
+        void selectToDeleteGame( boolean canDelete );
+        void selectGame(BeloteGame selectedGame);
     }
 }

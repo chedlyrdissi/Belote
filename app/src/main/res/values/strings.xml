@@ -15,4 +15,9 @@
     <string name="help">Help</string>
     <string name="creationSuccessful">New game created successfully</string>
     <string name="creationFailed">New game failed to create</string>
+    <string name="connectionIssue">Please make sure you are connected to the internet</string>
+    <string name="selectAGame">Please select a game</string>
+    <string name="gameName">Game id is : </string>
+    <string name="updateRound">Update Round</string>
+    <string name="changed">Changed</string>
 </resources>
