@@ -8,31 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import database.BeloteDBConnectionException;
 import database.BeloteDataBaseFacade;
-import database.Dummy;
 import scorer.BeloteGame;
-import scorer.BeloteRound;
-import scorer.BeloteTeam;
 import scorer.GameListRecyclerViewAdapter;
-import scorer.Player;
+import scorer.ItemDeleteHandler;
 import scorer.ScoreBean;
 
 import static core.RequestCodes.CREATE_NEW_GAME;
 import static core.RequestCodes.NEW_GAME_CREATION_FAILED;
 import static core.RequestCodes.NEW_GAME_CREATION_SUCCESSFUL;
 
-public class ScoreActivity extends AppCompatActivity implements GameListRecyclerViewAdapter.GameListItemDeleteHandler {
+public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandler<BeloteGame> {
 
     protected RecyclerView gameList;
     protected GameListRecyclerViewAdapter adapter;
@@ -76,6 +66,7 @@ public class ScoreActivity extends AppCompatActivity implements GameListRecycler
                 try{
                     BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedGames());
                     adapter.getSelectedGames().clear();
+                    adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

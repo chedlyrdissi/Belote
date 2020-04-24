@@ -25,9 +25,9 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
 
     private List<BeloteGame> games;
     protected List<BeloteGame> selectedGames = new LinkedList<>();
-    private GameListItemDeleteHandler context;
+    private ItemDeleteHandler<BeloteGame> context;
 
-    public GameListRecyclerViewAdapter( List<BeloteGame> games, GameListItemDeleteHandler context ) {
+    public GameListRecyclerViewAdapter( List<BeloteGame> games, ItemDeleteHandler<BeloteGame> context ) {
         this.games = new ArrayList<>(games);
         this.context = context;
         ScoreBean.getInstance().addGameListObserver(this);
@@ -115,10 +115,5 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
             gameTeam2 = itemView.findViewById(R.id.gameTeam2);
 
         }
-    }
-
-    public static interface GameListItemDeleteHandler {
-        void selectToDeleteGame( boolean canDelete );
-        void selectGame(BeloteGame selectedGame);
     }
 }

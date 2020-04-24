@@ -33,7 +33,7 @@ public class BeloteGame {
     }
 
     public void setRounds(List<BeloteRound> rounds) {
-        this.rounds.addAll(rounds);
+        this.rounds = rounds;
     }
 
     public void addRound( BeloteRound round ) {

@@ -84,4 +84,12 @@ public class BeloteDataBaseFacade {
         }
     }
 
+    public void addRound() {
+
+    }
+
+    public void deleteRounds(BeloteGame game, List<BeloteRound> rounds) {
+
+    }
+
 }

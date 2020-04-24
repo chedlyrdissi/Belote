@@ -20,4 +20,9 @@
     <string name="gameName">Game id is : </string>
     <string name="updateRound">Update Round</string>
     <string name="changed">Changed</string>
+    <string name="newLabel">New</string>
+    <string name="createRound">Create round</string>
+    <string name="deleteRound">Delete round</string>
+    <string name="start">Start</string>
+    <string name="finish">finish</string>
 </resources>
