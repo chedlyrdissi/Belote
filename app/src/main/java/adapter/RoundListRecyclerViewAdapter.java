@@ -1,4 +1,4 @@
-package scorer;
+package adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dialog.RoundDialog;
+import scorer.BeloteRound;
 
 public class RoundListRecyclerViewAdapter extends RecyclerView.Adapter<RoundListRecyclerViewAdapter.RoundListViewHolder> {
 

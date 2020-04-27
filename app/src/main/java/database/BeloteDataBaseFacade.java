@@ -1,7 +1,5 @@
 package database;
 
-import android.util.JsonReader;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +15,7 @@ import scorer.BeloteGame;
 import scorer.BeloteRound;
 import scorer.BeloteTeam;
 import scorer.Player;
-import scorer.ScoreBean;
+import bean.ScoreBean;
 
 public class BeloteDataBaseFacade {
 

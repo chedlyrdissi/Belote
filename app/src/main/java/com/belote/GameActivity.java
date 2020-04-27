@@ -14,9 +14,9 @@ import android.widget.Toast;
 import database.BeloteDataBaseFacade;
 import scorer.BeloteGame;
 import scorer.BeloteRound;
-import scorer.ItemDeleteHandler;
-import scorer.RoundListRecyclerViewAdapter;
-import scorer.ScoreBean;
+import adapter.ItemDeleteHandler;
+import adapter.RoundListRecyclerViewAdapter;
+import bean.ScoreBean;
 
 public class GameActivity extends AppCompatActivity implements ItemDeleteHandler<BeloteRound> {
 
@@ -59,7 +59,7 @@ public class GameActivity extends AppCompatActivity implements ItemDeleteHandler
 
             selectToDeleteGame(false);
 
-            name.setText(R.string.gameName + game.getName());
+            name.setText(R.string.gameName + game.getId());
             team1.setText(game.getTeam1().toString());
             team2.setText(game.getTeam2().toString());
             score1.setText(Integer.toString(game.getTotalScore1()));
@@ -76,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements ItemDeleteHandler
                 @Override
                 public void onClick(View v) {
                     try{
-                        BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedRounds());
+                        // BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedRounds());
                         adapter.getSelectedRounds().clear();
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {

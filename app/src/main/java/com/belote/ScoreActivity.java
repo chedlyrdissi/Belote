@@ -2,7 +2,6 @@ package com.belote;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,20 +11,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import database.BeloteDataBaseFacade;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
+
+import bean.RoundsBean;
+import database.BeloteRoundsDBM;
+import database.BeloteScoreDBM;
+import adapter.GameDataListRecyclerViewAdapter;
+import adapter.ItemDeleteHandler;
 import scorer.BeloteGame;
-import scorer.GameListRecyclerViewAdapter;
-import scorer.ItemDeleteHandler;
-import scorer.ScoreBean;
+import scorer.BeloteGameData;
+import bean.ScoreBean;
+import scorer.BeloteRound;
 
 import static core.RequestCodes.CREATE_NEW_GAME;
 import static core.RequestCodes.NEW_GAME_CREATION_FAILED;
 import static core.RequestCodes.NEW_GAME_CREATION_SUCCESSFUL;
 
-public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandler<BeloteGame> {
+public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandler<BeloteGameData> {
+
+    private BeloteScoreDBM dbm;
 
     protected RecyclerView gameList;
-    protected GameListRecyclerViewAdapter adapter;
+    protected GameDataListRecyclerViewAdapter adapter;
     protected LinearLayoutManager layoutManager;
 
     protected Button createGame, deleteGames;
@@ -35,11 +45,13 @@ public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
-        try {
-            BeloteDataBaseFacade.getInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), R.string.connectionIssue, Toast.LENGTH_LONG).show();
+        if (dbm == null) {
+            try {
+                dbm = new BeloteScoreDBM();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), R.string.connectionIssue, Toast.LENGTH_LONG).show();
+            }
         }
 
         gameList = findViewById(R.id.gamesList);
@@ -49,9 +61,8 @@ public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandle
         layoutManager = new LinearLayoutManager(this);
         gameList.setLayoutManager(layoutManager);
 
-        adapter = new GameListRecyclerViewAdapter(ScoreBean.getInstance().getGames(), this);
+        adapter = new GameDataListRecyclerViewAdapter(this);
         gameList.setAdapter(adapter);
-        gameList.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
 
         createGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +75,7 @@ public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandle
             @Override
             public void onClick(View v) {
                 try{
-                    BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedGames());
+                    dbm.deleteGames(adapter.getSelectedGames());
                     adapter.getSelectedGames().clear();
                     adapter.notifyDataSetChanged();
                 } catch (Exception e) {
@@ -101,9 +112,13 @@ public class ScoreActivity extends AppCompatActivity implements ItemDeleteHandle
     }
 
     @Override
-    public void selectGame(BeloteGame selectedGame) {
+    public void selectGame(BeloteGameData selectedGameData) {
         Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-        ScoreBean.getInstance().setSelectedGame(selectedGame);
+        BeloteRoundsDBM dbm = new BeloteRoundsDBM(selectedGameData.getId());
+        List<BeloteRound> rounds = RoundsBean.getInstance().getRounds();
+        ScoreBean.getInstance().setSelectedGame(new BeloteGame(selectedGameData,rounds));
         startActivity(intent);
+        dbm.destroy();
+//        finish();
     }
 }

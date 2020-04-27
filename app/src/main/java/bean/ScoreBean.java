@@ -1,19 +1,22 @@
-package scorer;
+package bean;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import scorer.BeloteGame;
+import scorer.BeloteGameData;
+
 public class ScoreBean extends Observable {
 
     private static ScoreBean instance;
 
-    private List<BeloteGame> games;
+    private List<BeloteGameData> gamesData;
     private BeloteGame selectedGame;
 
     private ScoreBean() {
-        games = new ArrayList<>();
+        gamesData = new ArrayList<>();
     }
 
     public static ScoreBean getInstance() {
@@ -23,8 +26,8 @@ public class ScoreBean extends Observable {
         return instance;
     }
 
-    public List<BeloteGame> getGames() {
-        return games;
+    public List<BeloteGameData> getGames() {
+        return gamesData;
     }
 
     public void addGameListObserver(Observer observer) {
@@ -35,11 +38,11 @@ public class ScoreBean extends Observable {
         deleteObserver(observer);
     }
 
-    public void setGames(List<BeloteGame> games) {
-        this.games.clear();
-        this.games.addAll(games);
+    public void setGames(List<BeloteGameData> gamesData) {
+        this.gamesData.clear();
+        this.gamesData.addAll(gamesData);
         setChanged();
-        notifyObservers(this.games);
+        notifyObservers(this.gamesData);
     }
 
     public BeloteGame getSelectedGame() {

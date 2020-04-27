@@ -1,4 +1,4 @@
-package scorer;
+package adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -13,22 +13,22 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.belote.R;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static scorer.GameListRecyclerViewAdapter.*;
+import scorer.BeloteGameData;
+import bean.ScoreBean;
 
-public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> implements Observer {
+import static adapter.GameDataListRecyclerViewAdapter.*;
 
-    private List<BeloteGame> games;
-    protected List<BeloteGame> selectedGames = new LinkedList<>();
-    private ItemDeleteHandler<BeloteGame> context;
+public class GameDataListRecyclerViewAdapter extends Adapter<GameListViewHolder> implements Observer {
 
-    public GameListRecyclerViewAdapter( List<BeloteGame> games, ItemDeleteHandler<BeloteGame> context ) {
-        this.games = new ArrayList<>(games);
+    protected List<BeloteGameData> selectedGames = new LinkedList<>();
+    private ItemDeleteHandler<BeloteGameData> context;
+
+    public GameDataListRecyclerViewAdapter( ItemDeleteHandler<BeloteGameData> context ) {
         this.context = context;
         ScoreBean.getInstance().addGameListObserver(this);
     }
@@ -45,13 +45,13 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
     public void onBindViewHolder(@NonNull final GameListViewHolder holder, final int position) {
         // setting the labels
         holder.gameName.setText("game #"+position);
-        holder.startTime.setText(games.get(position).getStart());
-        holder.finishTime.setText(games.get(position).getFinish());
-        holder.gameTeam1.setText(games.get(position).getTeam1().toString());
-        holder.gameTeam2.setText(games.get(position).getTeam2().toString());
-        holder.gameScore1.setText(Integer.toString(games.get(position).getTotalScore1()));
-        holder.gameScore2.setText(Integer.toString(games.get(position).getTotalScore2()));
-        if ( selectedGames.contains(games.get( position )) ) {
+        holder.startTime.setText(ScoreBean.getInstance().getGames().get(position).getStart());
+        holder.finishTime.setText(ScoreBean.getInstance().getGames().get(position).getFinish());
+        holder.gameTeam1.setText(ScoreBean.getInstance().getGames().get(position).getTeam1().toString());
+        holder.gameTeam2.setText(ScoreBean.getInstance().getGames().get(position).getTeam2().toString());
+        holder.gameScore1.setText(Integer.toString(ScoreBean.getInstance().getGames().get(position).getScore1()));
+        holder.gameScore2.setText(Integer.toString(ScoreBean.getInstance().getGames().get(position).getScore2()));
+        if ( selectedGames.contains(ScoreBean.getInstance().getGames().get( position )) ) {
             holder.view.setBackgroundColor(ContextCompat.getColor(holder.view.getContext(), R.color.itemSelected));
         } else {
             holder.view.setBackgroundColor(Color.WHITE);
@@ -59,14 +59,14 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( selectedGames.contains(games.get(position)) ) {
-                    selectedGames.remove(games.get(position));
+                if ( selectedGames.contains(ScoreBean.getInstance().getGames().get(position)) ) {
+                    selectedGames.remove(ScoreBean.getInstance().getGames().get(position));
                     v.setBackgroundColor(Color.WHITE);
                     if ( selectedGames.isEmpty() ) {
                         context.selectToDeleteGame(false);
                     }
                 } else {
-                    selectedGames.add(games.get(position));
+                    selectedGames.add(ScoreBean.getInstance().getGames().get(position));
                     v.setBackgroundColor(ContextCompat.getColor(v.getContext(), R.color.itemSelected));
                     context.selectToDeleteGame(true);
                 }
@@ -75,25 +75,25 @@ public class GameListRecyclerViewAdapter extends Adapter<GameListViewHolder> imp
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                context.selectGame(games.get(position));
+                context.selectGame(ScoreBean.getInstance().getGames().get(position));
                 return true;
             }
         });
     }
 
-    public List<BeloteGame> getSelectedGames() {
+    public List<BeloteGameData> getSelectedGames() {
         return selectedGames;
     }
 
     @Override
     public int getItemCount() {
-        return games.size();
+        return ScoreBean.getInstance().getGames().size();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.games.clear();
-        this.games.addAll( (List<BeloteGame>) arg );
+        ScoreBean.getInstance().getGames().clear();
+        ScoreBean.getInstance().getGames().addAll( (List<BeloteGameData>) arg );
         notifyDataSetChanged();
     }
 

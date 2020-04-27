@@ -14,7 +14,7 @@ import java.util.List;
 import scorer.BeloteGame;
 import scorer.BeloteRound;
 
-public class BeloteGameDBM {
+public class BeloteGameDBM extends DBManager{
 
     private DatabaseReference gameRef, roundsRef;
     private BeloteGame game;
@@ -47,7 +47,7 @@ public class BeloteGameDBM {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("game changed");
                 game = dataSnapshot.getValue(BeloteGame.class);
-                game.setName(id);
+                game.setId(id);
             }
 
             @Override
@@ -59,5 +59,10 @@ public class BeloteGameDBM {
 
     public BeloteGame getGame() {
         return this.game;
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }
