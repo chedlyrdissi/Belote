@@ -72,18 +72,18 @@ public class GameActivity extends AppCompatActivity implements ItemDeleteHandler
             roundsList.setLayoutManager(new LinearLayoutManager(this));
             roundsList.setAdapter( adapter );
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try{
-                        BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedRounds());
-                        adapter.getSelectedRounds().clear();
-                        adapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+//            deleteButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try{
+//                        BeloteDataBaseFacade.getInstance().deleteGames(adapter.getSelectedRounds());
+//                        adapter.getSelectedRounds().clear();
+//                        adapter.notifyDataSetChanged();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
 
         }
     }
